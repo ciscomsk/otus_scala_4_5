@@ -21,9 +21,9 @@ object task_futures_sequence {
    */
   def fullSequence[A](futures: List[Future[A]]): Future[(List[A], List[Throwable])] =
     futures.foldLeft(Future.successful(List.empty[A], List.empty[Throwable]))
-    { (res, err) =>
-      res.flatMap { case (resList, errList) =>
-        err
+    { (acc, el) =>
+      acc.flatMap { case (resList, errList) =>
+        el
           .map { success => (resList :+ success, errList)}
           .recover { case error: Throwable => (resList, errList :+ error) }
       }
