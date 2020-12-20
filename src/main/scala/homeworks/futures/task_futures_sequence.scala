@@ -3,6 +3,7 @@ package homeworks.futures
 import homeworks.HomeworksUtils.TaskSyntax
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object task_futures_sequence {
 
@@ -19,5 +20,13 @@ object task_futures_sequence {
    * @return асинхронную задачу с кортежом из двух списков
    */
   def fullSequence[A](futures: List[Future[A]]): Future[(List[A], List[Throwable])] =
-    task"Реализуйте метод `encrypt`"()
+    futures.foldLeft(Future.successful(List.empty[A], List.empty[Throwable]))
+    { (res, err) =>
+      res.flatMap { case (resList, errList) =>
+        err
+          .map { success => (resList :+ success, errList)}
+          .recover { case error: Throwable => (resList, errList :+ error) }
+      }
+    }
+
 }
