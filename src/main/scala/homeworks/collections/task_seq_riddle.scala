@@ -4,7 +4,7 @@ import homeworks.HomeworksUtils.TaskSyntax
 
 import scala.util.matching.Regex
 
-object task_seq_riddle {
+object task_seq_riddle extends App {
 
   /**
    * Рассмотрим последовательность с числами:
@@ -42,8 +42,13 @@ object task_seq_riddle {
    *
    */
 
+  //v1.1
   def ll(head: List[Int] = List(1)): LazyList[List[Int]] =
     head #:: ll(nextLine(head))
 
   lazy val funSeq: LazyList[List[Int]] = ll()
+
+  // v1.2
+//  lazy val funSeq2: LazyList[List[Int]] = LazyList.cons(???)
+
 }

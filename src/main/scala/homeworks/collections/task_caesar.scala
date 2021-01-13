@@ -17,17 +17,21 @@ object task_caesar {
    * @param offset сдвиг вперёд по алфавиту
    * @return зашифрованное слово
    */
-  private def reduceOffset(offset: Int): Int = {
-    // 26 - количество букв в английском алфавите
-    if (offset > 26) offset % 26 else offset
+
+  // 26 - количество букв в английском алфавите
+  private def recalcOffset(offset: Int): Int = {
+    val posOffset = if (offset < 0) offset % 26 + 26 else offset
+    val finalOffset = if (posOffset > 26) posOffset % 26 else posOffset
+
+    finalOffset
   }
 
+  // ASCII code A = 65, Z = 90
   def encrypt(word: String, offset: Int): String = {
-    val newOffset = reduceOffset(offset)
+    val newOffset = recalcOffset(offset)
 
     word
       .map(_ + newOffset)
-      // ASCII code A = 65, Z = 90
       .map(x => if (x > 90) 64 + x % 90 else x)
       .map(_.toChar)
       .map(_.toString)
@@ -40,7 +44,7 @@ object task_caesar {
    * @return расшифрованное слово
    */
   def decrypt(cipher: String, offset: Int): String = {
-    val newOffset = reduceOffset(offset)
+    val newOffset = recalcOffset(offset)
 
     cipher
       .map(_ - newOffset)
