@@ -46,9 +46,9 @@ object task_seq_riddle extends App {
   def ll(head: List[Int] = List(1)): LazyList[List[Int]] =
     head #:: ll(nextLine(head))
 
-  lazy val funSeq: LazyList[List[Int]] = ll()
+  lazy val funSeq1: LazyList[List[Int]] = ll()
 
   // v1.2
-//  lazy val funSeq2: LazyList[List[Int]] = LazyList.cons(???)
+  lazy val funSeq: LazyList[List[Int]] = LazyList.cons(hd = List(1), tl = funSeq.map(nextLine))
 
 }
